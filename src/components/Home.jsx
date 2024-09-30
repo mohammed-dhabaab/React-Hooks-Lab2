@@ -18,6 +18,7 @@ function Home() {
     const [userHeight, setUserHeight] = useState()
     const [userBMI, setUserBMI] = useState()
     const [userBMICategory, setUserBMICategory] = useState("")
+    const [normalWeightRange, setNormalWeightRange] = useState(null);
 
     const calculateBMI = () => {
         if (userWeight && userHeight) {
@@ -42,9 +43,16 @@ function Home() {
         }
     };
 
+    const calculateNormalWeight = () => {
+        const minWeight = (18.5 * ((userHeight / 100) ** 2)).toFixed(2);
+        const maxWeight = (24.9 * ((userHeight / 100) ** 2)).toFixed(2);
+        setNormalWeightRange({ min: minWeight, max: maxWeight });
+    }
+
 
     const calculateButtonEvent = () => {
         calculateBMI()
+        calculateNormalWeight()
     }
 
     return (
@@ -53,8 +61,8 @@ function Home() {
                 <h1 className={`${styles.heading2} text-center`}>BMI Calculator</h1>
                 <div className='flex flex-col gap-4'>
                     <div className='flex gap-2 '>
-                        <input onChange={(e) => setUserWeight(e.target.value)} type="text" placeholder="Your Weight" className="input input-bordered w-full max-w-xs" />
-                        <input onChange={(e) => setUserHeight(e.target.value)} type="text" placeholder="Your Height" className="input input-bordered w-full max-w-xs" />
+                        <input required onChange={(e) => setUserWeight(e.target.value)} type="text" placeholder="Your Weight" className="input input-bordered w-full max-w-xs" />
+                        <input required onChange={(e) => setUserHeight(e.target.value)} type="text" placeholder="Your Height" className="input input-bordered w-full max-w-xs" />
                     </div>
                     <button onClick={calculateButtonEvent} className='btn btn-primary text-lg'>Calculate</button>
                 </div>
@@ -63,6 +71,7 @@ function Home() {
                     <h2 className={`${styles.heading3}`}>Result</h2>
                     <div>
                         <p className={`${styles.paragraph1} text-lg`}>Your BMI is: {userBMI}</p>
+                        <p className={`${styles.paragraph1} text-lg`}>Your normal weight should be between: {normalWeightRange.min} and {normalWeightRange.max}</p>
                     </div>
 
                     <div className='bg-primary-content w-fit p-4 flex flex-col items-center rounded-md gap-2'>
