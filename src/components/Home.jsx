@@ -18,7 +18,7 @@ function Home() {
     const [userHeight, setUserHeight] = useState()
     const [userBMI, setUserBMI] = useState()
     const [userBMICategory, setUserBMICategory] = useState("")
-    const [normalWeightRange, setNormalWeightRange] = useState(null);
+    const [normalWeightRange, setNormalWeightRange] = useState({ min: 0, max: 0 });
 
     const calculateBMI = () => {
         if (userWeight && userHeight) {
